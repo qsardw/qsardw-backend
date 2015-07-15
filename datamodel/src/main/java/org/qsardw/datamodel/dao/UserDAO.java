@@ -1,3 +1,11 @@
+/*
+ * This file is part of the QSARDW Backend project
+ *
+ * (c) Javier Caride Ulloa <javier.caride@qsardw.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 package org.qsardw.datamodel.dao;
 
 import org.apache.ibatis.session.SqlSession;
@@ -5,7 +13,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.qsardw.datamodel.beans.User;
 
 /**
- * Created by javiercaride on 14/07/15.
+ * @author Javier Caride Ulloa <javier.caride@qsardw.org>
  */
 public class UserDAO extends BaseDAO {
     private SqlSessionFactory sqlSessionFactory;

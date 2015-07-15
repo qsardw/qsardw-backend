@@ -1,25 +1,10 @@
 /*
- * The MIT License
+ * This file is part of the QSARDW Backend project
  *
- * Copyright 2014 Javier Caride Ulloa.
+ * (c) Javier Caride Ulloa <javier.caride@qsardw.org>
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
  */
 package org.qsardw.datamodel.writers;
 
@@ -29,8 +14,6 @@ import java.util.List;
 import javax.vecmath.Vector2d;
 import org.openscience.cdk.DefaultChemObjectBuilder;
 import org.openscience.cdk.exception.CDKException;
-import org.openscience.cdk.inchi.InChIGeneratorFactory;
-import org.openscience.cdk.inchi.InChIToStructure;
 import org.openscience.cdk.interfaces.IAtomContainer;
 import org.openscience.cdk.io.SDFWriter;
 import org.openscience.cdk.layout.StructureDiagramGenerator;
@@ -41,8 +24,7 @@ import org.qsardw.datamodel.beans.DatasetRawMolecule;
 import org.qsardw.datamodel.dao.DatasetRawMoleculesDAO;
 
 /**
- *
- * @author Javier Caride Ulloa
+ * @author Javier Caride Ulloa <javier.caride@qsardw.org>
  */
 public class SdfWriter {
     public void SdfWriter() {

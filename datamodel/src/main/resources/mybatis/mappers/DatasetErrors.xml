@@ -2,7 +2,14 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+This file is part of the QSARDW Backend project
 
+(c) Javier Caride Ulloa <javier.caride@qsardw.org>
+
+For the full copyright and license information, please view the LICENSE
+file that was distributed with this source code.
+-->
 <mapper namespace="DatasetErrors">
     <resultMap id="datasetErrorResult" type="DatasetError">
         <result property="id" column="id"/>
