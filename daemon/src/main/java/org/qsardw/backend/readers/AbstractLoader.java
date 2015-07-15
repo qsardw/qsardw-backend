@@ -1,3 +1,11 @@
+/*
+ * This file is part of the QSARDW Backend project
+ *
+ * (c) Javier Caride Ulloa <javier.caride@qsardw.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 package org.qsardw.backend.readers;
 
 import org.apache.log4j.Logger;
@@ -27,7 +35,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Created by javiercaride on 14/07/15.
+ * @author Javier Caride Ulloa <javier.caride@qsardw.org>
  */
 public abstract class AbstractLoader {
 

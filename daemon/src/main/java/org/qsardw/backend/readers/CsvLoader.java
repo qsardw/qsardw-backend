@@ -1,3 +1,11 @@
+/*
+ * This file is part of the QSARDW Backend project
+ *
+ * (c) Javier Caride Ulloa <javier.caride@qsardw.org>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 package org.qsardw.backend.readers;
 
 import com.opencsv.CSVReader;
@@ -13,8 +21,7 @@ import uk.ac.cam.ch.wwmm.opsin.NameToStructureConfig;
 import uk.ac.cam.ch.wwmm.opsin.OpsinResult;
 
 /**
- *
- * @author javiercaride
+ * @author Javier Caride Ulloa <javier.caride@qsardw.org>
  */
 public class CsvLoader extends AbstractLoader{
 
