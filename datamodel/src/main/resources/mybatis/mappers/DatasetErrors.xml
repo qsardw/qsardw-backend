@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DatasetErrors">
+    <resultMap id="datasetErrorResult" type="DatasetError">
+        <result property="id" column="id"/>
+        <result property="dataset" column="dataset"/>
+        <result property="molecule" column="molecule"/>
+        <result property="errorMessage" column="error_message"/>
+        <result property="timestamp" column="ts"/>
+    </resultMap>
+    
+    <insert id="insert" parameterType="DatasetError">
+        INSERT INTO dataset_errors(dataset, molecule, error_message) VALUES(#{dataset}, #{molecule}, #{errorMessage});
+    </insert>
+    
+    <select id="getAll" resultMap="datasetErrorResult">
+        SELECT * FROM dataset_errors;
+    </select>
+        
+    <select id="selectById" parameterType="DatasetError" resultMap="datasetErrorResult">
+        SELECT * FROM dataset_errors WHERE id = #{id} LIMIT 1;
+    </select>
+    
+    <select id="selectByDataset" parameterType="DatasetError" resultMap="datasetErrorResult">
+        SELECT * FROM dataset_errors WHERE dataset = #{id};
+    </select>
+</mapper>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DatasetRawMolecules">
+    <resultMap id="datasetRawMoleculeResult" type="DatasetRawMolecule">
+        <result property="id" column="id"/>
+        <result property="dataset" column="dataset"/>
+        <result property="moleculeNumber" column="molecule_number"/>
+        <result property="smile" column="smile"/>
+        <result property="inchi" column="inchi"/>
+        <result property="inchiKey" column="inchi_key"/>
+        <result property="sourceId" column="source_id"/>
+        <result property="sourcePublication" column="source_publication"/>
+        <result property="sourceName" column="source_name"/>
+        <result property="isDuplicated" column="is_duplicated"/>
+        <result property="status" column="status"/>
+        <result property="moleculesGroup" column="molecules_group"/>
+        <result property="timestamp" column="ts"/>
+    </resultMap>
+    
+    <insert id="insert" parameterType="DatasetRawMolecule" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO dataset_raw_molecules(dataset, molecule_number, smile, inchi, inchi_key, source_id, source_publication, source_name, is_duplicated, molecules_group, status) 
+        VALUES(#{dataset}, #{moleculeNumber}, #{smile}, #{inchi}, #{inchiKey}, #{sourceId}, #{sourcePublication}, #{sourceName}, #{isDuplicated}, #{moleculesGroup}, #{status});
+    </insert>
+    
+    <update id="update" parameterType="DatasetRawMolecule">
+        UPDATE dataset_raw_molecules SET
+            dataset = #{dataset},
+            molecule_number = #{moleculeNumber},
+            smile = #{smile},
+            inchi = #{inchi},
+            inchi_key = #{inchiKey},
+            source_id = #{sourceId},
+            source_publication = #{sourcePublication},
+            source_name = #{sourceName},
+            is_duplicated = #{isDuplicated},
+            status = #{status},
+            molecules_group = #{moleculesGroup}
+        WHERE
+            id = #{id};
+    </update>
+    
+    <delete id="keepGroupedMolecule" parameterType="DatasetRawMolecule">
+        DELETE FROM dataset_raw_molecules WHERE
+            id != #{id} AND 
+            dataset = #{dataset} AND 
+            molecules_group = #{moleculesGroup};
+    </delete>
+    
+    <select id="getAll" resultMap="datasetRawMoleculeResult">
+        SELECT * FROM dataset_raw_molecules WHERE status = 1;
+    </select>
+        
+    <select id="selectById" parameterType="DatasetRawMolecule" resultMap="datasetRawMoleculeResult">
+        SELECT * FROM dataset_raw_molecules WHERE id = #{id} LIMIT 1;
+    </select>
+    
+    <select id="selectByDataset" parameterType="DatasetRawMolecule" resultMap="datasetRawMoleculeResult">
+        SELECT * FROM dataset_raw_molecules WHERE dataset = #{dataset} AND status = 1;
+    </select>
+    
+    <select id="selectBySmile" parameterType="DatasetRawMolecule" resultMap="datasetRawMoleculeResult">
+        SELECT * FROM dataset_raw_molecules WHERE smile = #{smile} AND dataset = #{dataset} AND status = 1;
+    </select>
+    
+    <select id="selectByInchi" parameterType="DatasetRawMolecule" resultMap="datasetRawMoleculeResult">
+        SELECT * FROM dataset_raw_molecules WHERE inchi = #{inchi} AND dataset = #{dataset} AND status = 1;
+    </select>
+    
+    <select id="selectByInchiKey" parameterType="DatasetRawMolecule" resultMap="datasetRawMoleculeResult">
+        SELECT * FROM dataset_raw_molecules WHERE inchi_key = #{inchiKey} AND dataset = #{dataset} AND status = 1;
+    </select>
+    
+    <select id="selectByMoleculesGroup" parameterType="DatasetRawMolecule" resultMap="datasetRawMoleculeResult">
+        SELECT * FROM dataset_raw_molecules 
+        WHERE molecules_group = #{moleculesGroup} AND dataset = #{dataset} AND status = #{status};
+    </select>
+        
+    <select id="selectDuplicatesByInchiKey" parameterType="DatasetRawMolecule" resultMap="datasetRawMoleculeResult">
+        SELECT drm.* FROM dataset_raw_molecules AS drm 
+        JOIN dataset_processed_molecules AS dpm ON dpm.molecule = drm.id AND dpm.processed_status = 2 
+        WHERE drm.inchi_key = #{inchiKey} AND drm.dataset = #{dataset} AND drm.is_duplicated = 1 AND drm.status = 1;
+    </select>
+    
+    <select id="countCleanMolecules" parameterType="int" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM 
+            dataset_raw_molecules drm
+        JOIN
+            dataset_processed_molecules dpm 
+            ON dpm.molecule = drm.id AND processed_status = 1
+        WHERE
+            drm.dataset = #{dataset} AND drm.status = 1
+    </select>
+    
+    <select id="selectCleanMolecules" parameterType="int" resultMap="datasetRawMoleculeResult">
+        SELECT
+            drm.*
+        FROM 
+            dataset_raw_molecules drm
+        JOIN
+            dataset_processed_molecules dpm 
+            ON dpm.molecule = drm.id AND processed_status = 1
+        WHERE
+            drm.dataset = #{dataset} AND drm.status = 1
+    </select>
+    
+    <select id="selectDiscardedMolecules" parameterType="int" resultMap="datasetRawMoleculeResult">
+        SELECT
+            drm.*
+        FROM 
+            dataset_raw_molecules drm
+        JOIN
+            dataset_processed_molecules dpm 
+            ON dpm.molecule = drm.id AND processed_status = 2
+        WHERE
+            drm.dataset = #{dataset} AND drm.status = 1
+    </select>
+    
+    <select id="selectMoleculesToReview" parameterType="int" resultMap="datasetRawMoleculeResult">
+        SELECT
+            drm.*
+        FROM 
+            dataset_raw_molecules drm
+        JOIN
+            dataset_processed_molecules dpm 
+            ON dpm.molecule = drm.id AND processed_status = 3
+        WHERE
+            drm.dataset = #{dataset} AND drm.status = 1
+    </select>
+    
+    <select id="selectMultipleMoleculesToReview" parameterType="int" resultMap="datasetRawMoleculeResult">
+        SELECT
+            drm.*
+        FROM 
+            dataset_raw_molecules drm
+        WHERE
+            drm.dataset = #{dataset} AND drm.status = 2
+    </select>
+</mapper>

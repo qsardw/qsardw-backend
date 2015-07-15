@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DatasetRawMoleculesGroups">
+    <resultMap id="datasetRawMoleculeGroupResult" type="DatasetRawMoleculeGroup">
+        <result property="id" column="id"/>
+        <result property="dataset" column="dataset"/>
+        <result property="groupSmile" column="group_smile"/>
+        <result property="timestamp" column="ts"/>
+    </resultMap>
+    
+    <insert id="insert" parameterType="DatasetRawMoleculeGroup" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO dataset_raw_molecules_groups(dataset, group_smile) 
+        VALUES(#{dataset}, #{groupSmile});
+    </insert>
+    
+    <update id="update" parameterType="DatasetRawMoleculeGroup">
+        UPDATE dataset_raw_molecules_groups SET
+            dataset = #{dataset},
+            group_smile = #{groupSmile},
+            ts = CURRENT_TIMESTAMP
+        WHERE
+            id = #{id};
+    </update>
+    
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM dataset_raw_molecules_groups WHERE id = #{id};
+    </delete>
+    
+    <select id="getAll" resultMap="datasetRawMoleculeGroupResult">
+        SELECT * FROM dataset_raw_molecules_groups WHERE status = 1;
+    </select>
+        
+    <select id="selectById" parameterType="DatasetRawMoleculeGroup" resultMap="datasetRawMoleculeGroupResult">
+        SELECT * FROM dataset_raw_molecules_groups WHERE id = #{id} LIMIT 1;
+    </select>
+    
+    <select id="selectByDataset" parameterType="DatasetRawMoleculeGroup" resultMap="datasetRawMoleculeGroupResult">
+        SELECT * FROM dataset_raw_molecules_groups WHERE dataset = #{dataset};
+    </select>
+    
+    <select id="selectBySmile" parameterType="DatasetRawMoleculeGroup" resultMap="datasetRawMoleculeGroupResult">
+        SELECT * FROM dataset_raw_molecules_groups WHERE group_smile = #{smile} AND dataset = #{dataset};
+    </select>
+    
+    <select id="countGroups" parameterType="int" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM 
+            dataset_raw_molecules_groups drmg
+        WHERE
+            drmg.dataset = #{dataset}
+    </select>
+</mapper>

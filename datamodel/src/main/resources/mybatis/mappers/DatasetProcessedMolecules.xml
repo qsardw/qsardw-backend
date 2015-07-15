@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="DatasetProcessedMolecules">
+    <resultMap id="datasetProcessedMoleculesResult" type="DatasetProcessedMolecule">
+        <result property="dataset" column="dataset"/>
+        <result property="molecule" column="molecule"/>
+        <result property="inchiKey" column="inchi_key"/>
+        <result property="processedStatus" column="processed_status"/>
+        <result property="ts" column="ts" />
+    </resultMap>
+    
+    <insert id="insert" parameterType="DatasetProcessedMolecule">
+        INSERT INTO dataset_processed_molecules(dataset, molecule, inchi_key, processed_status) 
+        VALUES (#{dataset}, #{molecule}, #{inchiKey}, #{processedStatus});
+    </insert>
+    
+    <select id="selectFiltered" parameterType="DatasetProcessedMolecule" resultMap="datasetProcessedMoleculesResult">
+        SELECT * FROM dataset_processed_molecules 
+        WHERE dataset = #{dataset}
+        <if test="molecule != null">
+            AND molecule = #{molecule}
+        </if>
+        <if test="inchiKey != null">
+            AND inchi_key = #{inchiKey}
+        </if>
+        <if test="processedStatus != null">
+            AND processed_status = #{processedStatus}
+        </if>
+    </select>
+    
+    <select id="selectOne" parameterType="DatasetProcessedMolecule" resultMap="datasetProcessedMoleculesResult">
+        SELECT * FROM dataset_processed_molecules 
+        WHERE molecule = #{molecule}
+        LIMIT 1
+    </select>
+    
+    <update id="update" parameterType="DatasetProcessedMolecule">
+        UPDATE dataset_processed_molecules
+        SET
+            dataset = #{dataset},
+            processed_status = #{processedStatus},
+            inchi_key = #{inchiKey}
+        WHERE molecule = #{molecule}
+    </update>
+</mapper>
+

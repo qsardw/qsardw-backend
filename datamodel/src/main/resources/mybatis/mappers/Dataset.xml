@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Dataset">
+    <resultMap id="datasetResult" type="Dataset">
+        <result property="id" column="id"/>
+        <result property="datasetName" column="dataset_name"/>
+        <result property="description" column="description"/>
+        <result property="originalFile" column="original_file"/>
+        <result property="fileType" column="file_type"/>
+        <result property="initialMolecules" column="initial_molecules"/>
+        <result property="distinctMolecules" column="distinct_molecules"/>
+        <result property="isCleaned" column="is_cleaned"/>
+        <result property="owner" column="owner"/>
+        <result property="createdOn" column="created_on" />
+        <result property="multipleMoleculesStrategy" column="multiple_molecules_strategy" />
+        <result property="onDuplicatesStrategy" column="on_duplicates_strategy" />
+        <result property="status" column="status" />
+        <result property="visibility" column="visibility" />
+        <result property="ts" column="ts" />
+    </resultMap>
+    
+    <insert id="insert" parameterType="Dataset">
+        INSERT INTO (
+            dataset_name,
+            description,
+            original_file,
+            file_type,
+            initial_molecules,
+            distinct_molecules,
+            is_cleaned,
+            owner,
+            created_on,
+            multiple_molecules_strategy,
+            on_duplicates_strategy,
+            status,
+            visibility
+        ) VALUES (
+            #{datasetName},
+            #{description},
+            #{originalFile},
+            #{fileType},
+            #{initialMolecules},
+            #{distinctMolecules},
+            #{isCleaned},
+            #{owner},
+            #{createdOn},
+            #{multipleMoleculesStrategy},
+            #{onDuplicatesStrategy},
+            #{status},
+            #{visibility}
+        )
+    </insert>
+        
+    <update id="update" parameterType="Dataset">
+        UPDATE dataset SET
+            dataset_name = #{datasetName}, 
+            description = #{description}, 
+            original_file = #{originalFile}, 
+            file_type = #{fileType},
+            initial_molecules = #{initialMolecules},
+            distinct_molecules = #{distinctMolecules},
+            is_cleaned = #{isCleaned},
+            owner = #{owner},
+            multiple_molecules_strategy = #{multipleMoleculesStrategy},
+            on_duplicates_strategy = #{onDuplicatesStrategy},
+            status = #{status},
+            visibility = #{visibility}
+        WHERE id = #{id} LIMIT 1;
+    </update>
+
+    <select id="getAll" resultMap="datasetResult">
+        SELECT * FROM dataset
+    </select>
+        
+    <select id="selectById" parameterType="Dataset" resultMap="datasetResult">
+        SELECT * FROM dataset WHERE id = #{id} LIMIT 1;
+    </select>
+    
+    <select id="selectFiltered" parameterType="Dataset" resultMap="datasetResult">
+        SELECT * FROM dataset 
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="owner != null">
+                AND owner = #{owner}
+            </if>
+            <if test="status != null">
+                AND status = #{status}
+            </if>
+            <if test="isCleaned != null">
+                AND is_cleaned = #{isCleaned}
+            </if>
+            <if test="visibility != null">
+                AND visibility = #{visibility}
+            </if>
+        </where>
+    </select>
+</mapper>

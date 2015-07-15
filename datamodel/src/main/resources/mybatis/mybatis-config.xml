@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--
+Copyright (c) 2013, Javier Caride Ulloa <javier.caride@gmail.com>
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+  list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<configuration>
+    <typeAliases>
+        <typeAlias alias="Dataset" type="org.qsardw.datamodel.beans.Dataset"/>
+        <typeAlias alias="DatasetError" type="org.qsardw.datamodel.beans.DatasetError"/>
+        <typeAlias alias="DatasetRawMolecule" type="org.qsardw.datamodel.beans.DatasetRawMolecule"/>
+        <typeAlias alias="DatasetRawMoleculeGroup" type="org.qsardw.datamodel.beans.DatasetRawMoleculeGroup"/>
+        <typeAlias alias="DatasetProcessedMolecule" type="org.qsardw.datamodel.beans.DatasetProcessedMolecule"/>
+        <typeAlias alias="User" type="org.qsardw.datamodel.beans.User"/>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/qsardw"/>
+                <property name="username" value="qsardw_owner"/>
+                <property name="password" value="a934iu9f98349834fdihjb39834h"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mybatis/mappers/Dataset.xml"/>
+        <mapper resource="mybatis/mappers/DatasetErrors.xml"/>
+        <mapper resource="mybatis/mappers/DatasetRawMolecules.xml"/>
+        <mapper resource="mybatis/mappers/DatasetRawMoleculesGroups.xml"/>
+        <mapper resource="mybatis/mappers/DatasetProcessedMolecules.xml"/>
+        <mapper resource="mybatis/mappers/Users.xml"/>
+    </mappers>
+</configuration>
