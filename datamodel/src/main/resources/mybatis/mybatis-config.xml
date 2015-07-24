@@ -26,8 +26,8 @@ file that was distributed with this source code.
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/qsardw"/>
-                <property name="username" value="qsardw_owner"/>
-                <property name="password" value="a934iu9f98349834fdihjb39834h"/>
+                <property name="username" value="your_user_here"/>
+                <property name="password" value="your_password_here"/>
             </dataSource>
         </environment>
     </environments>

@@ -35,6 +35,7 @@
     </repositories>
 
     <build>
+        <finalName>qsardw-job-scheduler</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
