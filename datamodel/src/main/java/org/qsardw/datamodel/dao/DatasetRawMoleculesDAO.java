@@ -190,6 +190,23 @@ public class DatasetRawMoleculesDAO extends BaseDAO {
             session.close();
         }
     }
+
+    public List<DatasetRawMolecule> selectDeletedMolecules(Integer datasetId, int limit, int offset) {
+        SqlSession session = sqlSessionFactory.openSession();
+
+        try {
+            List<DatasetRawMolecule> list = null;
+            if ((limit > 0) && (offset > 0)) {
+                RowBounds bounds = new RowBounds(offset, limit);
+                list = session.selectList("DatasetRawMolecules.selectDeletedMolecules", datasetId, bounds);
+            } else {
+                list = session.selectList("DatasetRawMolecules.selectDeletedMolecules", datasetId);
+            }
+            return list;
+        } finally {
+            session.close();
+        }
+    }
     
     public List<DatasetRawMolecule> selectMoleculesToReview(Integer datasetId) {
         SqlSession session = sqlSessionFactory.openSession();

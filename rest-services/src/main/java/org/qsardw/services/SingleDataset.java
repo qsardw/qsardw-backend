@@ -105,6 +105,34 @@ public class SingleDataset {
         
         return response;
     }
+
+    /**
+     * Returns a dataset object. It returns a complete dataset object
+     *
+     * @param datasetId
+     * @param limit
+     * @param offset
+     * @return JSON Dataset object
+     */
+    @GET
+    @Path("{datasetId}/deletedmolecules")
+    @Produces(MediaType.APPLICATION_JSON)
+    public RawMoleculesCollection getDeletedMolecules(
+            @PathParam("datasetId") Integer datasetId,
+            @QueryParam("limit") int limit,
+            @QueryParam("offset") int offset
+    ) {
+        DatasetRawMoleculesDAO datasetMolecules = new DatasetRawMoleculesDAO();
+
+        List<DatasetRawMolecule> molecules = datasetMolecules.selectDeletedMolecules(datasetId, limit, offset);
+        int moleculesNumber = molecules.size();
+
+        RawMoleculesCollection response = new RawMoleculesCollection();
+        response.setTotalMolecules(moleculesNumber);
+        response.setMolecules(molecules);
+
+        return response;
+    }
     
     /**
      * Returns a dataset object. It returns a complete dataset object

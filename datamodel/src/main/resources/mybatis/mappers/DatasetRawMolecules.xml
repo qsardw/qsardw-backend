@@ -126,6 +126,18 @@ file that was distributed with this source code.
         WHERE
             drm.dataset = #{dataset} AND drm.status = 1
     </select>
+
+    <select id="selectDeletedMolecules" parameterType="int" resultMap="datasetRawMoleculeResult">
+        SELECT
+        drm.*
+        FROM
+        dataset_raw_molecules drm
+        JOIN
+        dataset_processed_molecules dpm
+        ON dpm.molecule = drm.id AND processed_status = 4
+        WHERE
+        drm.dataset = #{dataset} AND drm.status = 1
+    </select>
     
     <select id="selectMoleculesToReview" parameterType="int" resultMap="datasetRawMoleculeResult">
         SELECT

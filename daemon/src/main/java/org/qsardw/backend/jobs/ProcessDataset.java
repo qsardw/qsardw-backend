@@ -20,6 +20,9 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -115,34 +118,59 @@ public final class ProcessDataset implements Job {
         }
     }
 
-    private void sendEmail(String recipient, String subject, String body)
-    {
+    private void sendEmail(String recipient, String subject, String body) {
         try {
-            Properties properties = new Properties();
-            properties.put("mail.smtp.host", "smtp.mandrillapp.com");
-            properties.put("mail.smtp.port", "587");
-            properties.put("mail.smtp.auth", "true");
+            logger.debug("Trying to send email to " + recipient);
+
+            logger.debug("Loading session.properties");
+            final Properties sessionProperties = new Properties();
+            InputStream sessionStream = getClass().getClassLoader().getResourceAsStream("session.properties");
+            sessionProperties.load(sessionStream);
+            sessionStream.close();
+
+            logger.debug("mail_credentials.properties");
+            final Properties mailConfigProperties = new Properties();
+            InputStream configStream = getClass().getClassLoader().getResourceAsStream("mail_credentials.properties");
+            mailConfigProperties.load(configStream);
+            configStream.close();
 
             Authenticator auth = new Authenticator() {
                 public PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("javier.caride@gmail.com", "Z5zxyr-D5MAYsYIMatcjGw");
+                    return new PasswordAuthentication(
+                            mailConfigProperties.getProperty("mail.username"),
+                            mailConfigProperties.getProperty("mail.password")
+                    );
                 }
             };
 
-            Session session = Session.getInstance(properties, auth);
+            logger.debug(sessionProperties.getProperty("mail.smtp.host"));
+            logger.debug(mailConfigProperties.getProperty("mail.username"));
+            logger.debug(mailConfigProperties.getProperty("mail.password"));
+
+            Session session = Session.getInstance(sessionProperties, auth);
 
             InternetAddress[] toAddresses = {new InternetAddress(recipient)};
 
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("noreply@qsardw.org"));
+            message.setFrom(new InternetAddress(mailConfigProperties.getProperty("mail.from")));
             message.setRecipients(Message.RecipientType.TO, toAddresses);
             message.setSubject(subject);
             message.setSentDate(new Date());
             message.setContent(body, "text/html");
 
             Transport.send(message);
-        } catch (Exception ex) {
+        } catch (FileNotFoundException ex) {
+            logger.debug("Sending email to " + recipient + " failed: file not found");
             logger.error(ex.getMessage());
+        } catch (IOException ex) {
+            logger.debug("Sending email to " + recipient + " failed: IO failed");
+            logger.error(ex.getMessage());
+        } catch (Exception ex) {
+            logger.debug("Sending email to " + recipient + " failed: general fail");
+            logger.error(ex.getMessage());
+            logger.error(ex.getLocalizedMessage());
+            logger.error(ex.toString());
+            ex.printStackTrace();
         }
     }
 
